@@ -57,6 +57,13 @@ export const ODB = ({ children }: OrbisDBProps) => {
       },
     });
     useEffect(() => {
+      if (window.ethereum) {
+        window.ethereum.on('accountsChanged', () => {
+          localStorage.clear();
+          window.location.reload();
+        });
+      }
+
       const StartOrbisAuth = async (): Promise<
         OrbisConnectResult | undefined
       > => {
@@ -114,8 +121,8 @@ export const ODB = ({ children }: OrbisDBProps) => {
     }, [isAuth, walletClient, address]);
 
     return isAuth;
-  }
 
+  }
   if (!isAuthenticated) {
     StartAuth();
   }
